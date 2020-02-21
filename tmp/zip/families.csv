@@ -1,0 +1,33 @@
+record_id,hierarchy_code,kingdom,phylum,class,order,family,superfamily,database_id,family_code,is_accepted_name
+1005,\N,Plantae,Tracheophyta,Magnoliopsida,Geraniales,Geraniaceae,\N,48,5ee133d2-a192-47e5-af65-a753667b9f68,1
+8494,\N,Fungi,Ascomycota,Leotiomycetes,Rhytismatales,Cryptomycetaceae,\N,25,1454f443-d8e6-4868-b848-b08591a6e284,1
+8495,\N,Fungi,Ascomycota,Leotiomycetes,Rhytismatales,Rhytismataceae,\N,25,1f4cce8f-ac9b-4d21-b03d-14597f2f4d4c,1
+8496,\N,Fungi,Ascomycota,Leotiomycetes,Rhytismatales,Ascodichaenaceae,\N,25,ceada366-06f0-4533-ae80-5c28c199de7c,1
+8497,\N,Fungi,Ascomycota,Leotiomycetes,Rhytismatales,Cudoniaceae,\N,25,5462739a-b4cc-4e44-a530-40b88447c17b,1
+2890,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Dignathodontidae,\N,42,e45006c5-638d-442b-b5c1-c9fa14a936b3,1
+2891,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Geophilidae,\N,42,610540a6-12ec-4611-a743-040085db81eb,1
+2892,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Mecistocephalidae,\N,42,9555012f-a0b7-48cc-acf7-a48504ae2eb2,1
+2893,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Schendylidae,\N,42,efdd6849-905a-47e4-bf3c-0c8fab0899ef,1
+2894,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Eriphantidae,\N,42,6954d95a-688c-4544-ad4f-cdb8e9ad6b8e,1
+2895,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Macronicophilidae,\N,42,c3be5509-fb2d-4ce9-b775-306d9ca6d901,1
+2896,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Aphilodontidae,\N,42,16079211-06dc-4616-8709-73f857a2c126,1
+2897,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Himantariidae,\N,42,d8c3c5bf-535e-474b-936e-c751a5d353be,1
+2898,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Tampiyidae,\N,42,6d6ff67f-57cc-4aa2-9263-40e29d25f9bc,1
+2899,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Oryidae,\N,42,6e177de4-47b6-4747-8cc3-3c5dd023d37d,1
+2900,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Linotaeniidae,\N,42,cded5651-98f4-465b-94b8-b2386f9b55b9,1
+2901,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Gonibregmatidae,\N,42,860bf32c-d97a-49f9-8d08-70aa056050ff,1
+2902,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Ballophilidae,\N,42,3a4701fb-40bf-4e01-be4b-68c2d8414935,1
+2904,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Eucratonychidae,\N,42,3d07d108-1b53-4169-b246-4d0eaed663f2,1
+2905,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Neogeophilidae,\N,42,08125efa-644e-4795-9aa0-f6601e7f7c29,1
+2906,\N,Animalia,Arthropoda,Chilopoda,Scutigeromorpha,Scutigeridae,\N,42,649803d6-bba5-4f5a-abac-e4a106f62163,1
+2907,\N,Animalia,Arthropoda,Chilopoda,Scutigeromorpha,Pselliodidae,\N,42,38870b65-b906-4ee5-8086-2ce6a03bbf3f,1
+2908,\N,Animalia,Arthropoda,Chilopoda,Scutigeromorpha,Scutigerinidae,\N,42,7d2abf60-7b75-42f2-b6aa-898b81729a7e,1
+2909,\N,Animalia,Arthropoda,Chilopoda,Scolopendromorpha,Scolopocryptopidae,\N,42,8cd1e9fa-a7b3-48eb-8380-f21e94a93831,1
+2910,\N,Animalia,Arthropoda,Chilopoda,Scolopendromorpha,Scolopendridae,\N,42,5bb2b5cf-7a38-4dbe-bd22-7d0bcd6ded05,1
+2911,\N,Animalia,Arthropoda,Chilopoda,Scolopendromorpha,Cryptopidae,\N,42,8288e264-4b7b-4946-83f6-13c173aa7025,1
+2912,\N,Animalia,Arthropoda,Chilopoda,Lithobiomorpha,Lithobiidae,\N,42,4717e5b8-d956-4167-91b0-3ea1b23af5f2,1
+2913,\N,Animalia,Arthropoda,Chilopoda,Lithobiomorpha,Henicopidae,\N,42,86549e5f-dbc5-460d-9edc-37ea25412837,1
+2914,\N,Animalia,Arthropoda,Chilopoda,Craterostigmomorpha,Craterostigmidae,\N,42,cf341cb3-bd80-4142-ae4f-79f3b9a05032,1
+20059,\N,Fungi,Ascomycota,Leotiomycetes,Rhytismatales,Not assigned,\N,25,inc.sed-1,1
+20060,\N,Animalia,Arthropoda,Chilopoda,Geophilomorpha,Not assigned,\N,42,inc.sed-2,1
+20061,\N,Animalia,Arthropoda,Chilopoda,Lithobiomorpha,Not assigned,\N,42,inc.sed-3,1
