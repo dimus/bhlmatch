@@ -61,6 +61,12 @@ func OptJobsNum(n int) Option {
 	}
 }
 
+func OptTaxonomicMatch(t bool) Option {
+	return func(bhlm *BHLmatch) {
+		bhlm.BHLnames.NoSynonyms = t
+	}
+}
+
 func NewBHLmatch(opts ...Option) BHLmatch {
 	bhlm := BHLmatch{}
 	for _, opt := range opts {

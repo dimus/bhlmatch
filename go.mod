@@ -9,8 +9,8 @@ require (
 	github.com/dgraph-io/badger/v2 v2.0.1
 	github.com/dgraph-io/ristretto v0.0.1 // indirect
 	github.com/dgryski/go-farm v0.0.0-20191112170834-c2139c5d712b // indirect
-	github.com/gnames/bhlindex v0.8.0
-	github.com/gnames/bhlnames v0.0.4-0.20200127141202-63cf6050a2d7
+	github.com/gnames/bhlindex v0.9.1-0.20200309183110-6f1d80629e2b
+	github.com/gnames/bhlnames v0.0.6-0.20200320175428-22858bd63995
 	github.com/gnames/uuid5 v0.1.1
 	github.com/gosuri/uilive v0.0.4 // indirect
 	github.com/gosuri/uiprogress v0.0.1

@@ -30,14 +30,15 @@ import (
 )
 
 type config struct {
-	InputFile   string
-	OutputFile  string
-	DbHost      string
-	DbUser      string
-	DbPass      string
-	DbName      string
-	BHLnamesDir string
-	JobsNum     int
+	InputFile      string
+	OutputFile     string
+	DbHost         string
+	DbUser         string
+	DbPass         string
+	DbName         string
+	BHLnamesDir    string
+	JobsNum        int
+	TaxonomicMatch bool
 }
 
 var (
@@ -142,7 +143,11 @@ DbName: bhlnames
 # BHLnames helper directory
 BHLnamesDir: /tmp/bhlnames
 
+# Number of CPU threads
 JobsNum: 4
+
+# Match taxonomically or nomenclaturally? [Default: false]
+TaxonomicMatch: false
 `)
 
 	fmt.Println("Could not find configuration file.")
@@ -186,6 +191,9 @@ func getOpts() []bhlmatch.Option {
 	}
 	if cfg.JobsNum != 0 {
 		opts = append(opts, bhlmatch.OptJobsNum(cfg.JobsNum))
+	}
+	if cfg.TaxonomicMatch {
+		opts = append(opts, bhlmatch.OptTaxonomicMatch(cfg.TaxonomicMatch))
 	}
 	return opts
 }

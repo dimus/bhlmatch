@@ -1,14 +1,15 @@
 package datamatcher
 
 import (
+	"math"
 	"testing"
 
 	"github.com/gnames/bhlnames/refs"
 )
 
 func TestYearNear(t *testing.T) {
-	years := [][]int{{2001, 2000}, {2000, 2001}, {2000, 2000}, {2000, 2002}, {-1, -1}, {3000, 3001}}
-	scores := []float32{0.5, 0.5, 1, 0, 0, 0}
+	years := [][]int{{2001, 2000}, {2000, 2001}, {2000, 2000}, {2000, 2002}, {2000, 2003}, {-1, -1}, {3000, 3001}}
+	scores := []float32{0.7, 0.7, 1, 0.49, 0.343, 0, 0}
 	for i, v := range years {
 		score := YearNear(v[0], v[1])
 		if score != scores[i] {
@@ -29,16 +30,18 @@ func TestYearBetween(t *testing.T) {
 		{[]int{0, 2000, 2001}, 0},
 		{[]int{0, 2000, 0}, 0},
 		{[]int{0, 0, 2000}, 0},
-		{[]int{2000, 0, 0}, 1},
-		{[]int{2000, 2000, 2001}, 1},
+		{[]int{2000, 0, 0}, 0.01},
+		{[]int{2000, 2000, 2001}, 0.7},
 		{[]int{1999, 2000, 2001}, 0},
-		{[]int{1998, 2000, 2001}, 0},
 		{[]int{2002, 2000, 2001}, 0},
-		{[]int{2003, 2000, 2001}, 0},
 		{[]int{2001, 2001, 0}, 1},
-		{[]int{2001, 2002, 0}, 0.5},
-		{[]int{2001, 2003, 0}, 0},
-		{[]int{2003, 2002, 0}, 0.5},
+		{[]int{2001, 2002, 0}, 0.7},
+		{[]int{2001, 2003, 0}, 0.49},
+		{[]int{2003, 2002, 0}, 0.7},
+		{[]int{2003, 2003, 2003}, 1},
+		{[]int{2002, 1993, 2003}, 0.7},
+		{[]int{1993, 1993, 2003}, 0.028248},
+		{[]int{1981, 1980, 2003}, 0},
 		{[]int{3000, 3000, 3000}, 0},
 		{[]int{0, 3000, 3000}, 0},
 		{[]int{3000, 0, 0}, 0},
@@ -48,13 +51,12 @@ func TestYearBetween(t *testing.T) {
 
 	for _, d := range dataArray {
 		score := YearBetween(d.values[0], d.values[1], d.values[2])
-		if score != d.score {
+		if math.Abs(float64(score)-float64(d.score)) > 0.0001 {
 			t.Errorf("Wrong score for YearsBetween(%d, %d, %d): %f %f",
 				d.values[0], d.values[1], d.values[2], d.score, score)
 		}
 	}
 }
-
 func TestYearScore(t *testing.T) {
 
 	type data struct {
@@ -72,16 +74,20 @@ func TestYearScore(t *testing.T) {
 		// 4 TitleYearEnd
 		{"Part", []int{0, 0, 0, 0, 0}, 0, 0},
 		{"Part", []int{0, 2000, 2001, 0, 0}, 0, 0},
-		{"Part", []int{2000, 2000, 2000, 0, 0}, 2000, 1},
-		{"Part", []int{3000, 2000, 3000, 0, 0}, 3000, 0},
+		{"Part", []int{0, 2000, 2001, 0, 0}, 3000, 0},
 		{"Part", []int{3000, 3000, 2001, 0, 0}, 3000, 0},
-		{"Title", []int{2000, 0, 0, 1990, 1991}, 2000, 0},
+		{"Part", []int{2000, 2000, 2000, 0, 0}, 2000, 1},
+		{"Part", []int{2000, 0, 0, 1990, 2001}, 2000, 1},
 		{"Title", []int{2000, 0, 0, 2000, 0}, 2000, 1},
-		{"Part", []int{0, 2000, 2001, 0, 0}, 0, 0},
-		{"Part", []int{0, 2000, 2001, 0, 0}, 0, 0},
-		{"Part", []int{0, 2000, 2001, 0, 0}, 0, 0},
+		{"Part", []int{0, 2000, 2001, 0, 0}, 2000, 0.7},
+		{"Title", []int{1837, 0, 0, 1837, 1858}, 1849, 0.040354},
+		{"Title", []int{1837, 0, 0, 1837, 1858}, 1838, 0},
+		{"Item", []int{1837, 1837, 1858, 0, 0}, 1849, 0.040354},
+		{"Item", []int{1837, 1837, 1858, 0, 0}, 1838, 0},
+		{"Item", []int{1837, 1837, 1839, 1837, 1890}, 1838, 0.7},
+		{"Item", []int{1837, 1837, 1849, 1837, 1838}, 1838, 1},
+		{"Title", []int{0, 0, 0, 0, 0}, 1849, 0.01},
 	}
-	_ = dataArray
 
 	for _, d := range dataArray {
 		testRef := refs.Reference{
@@ -95,9 +101,8 @@ func TestYearScore(t *testing.T) {
 
 		result := YearScore(d.year, &testRef)
 
-		if result != d.score {
+		if math.Abs(float64(result)-float64(d.score)) > 0.0001 {
 			t.Errorf("Wrong score for YearScore(%d, %#v) %f %f", d.year, testRef, result, d.score)
 		}
 	}
-
 }
