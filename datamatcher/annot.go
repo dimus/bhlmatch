@@ -69,7 +69,7 @@ func cardinality(ref *refs.Reference) (int32, int32) {
 	return n.Cardinality, mn.Cardinality
 }
 
-func calculateScore(ref *refs.Reference) float32 {
+func AnnotScore(ref *refs.Reference) float32 {
 	annot := NewAnnot(ref.AnnotNomen)
 	cardName, cardMatchName := cardinality(ref)
 	if cardName == 0 || cardMatchName == 0 {
@@ -108,17 +108,7 @@ func calculateScore(ref *refs.Reference) float32 {
 			return 0.6
 		}
 	case NoAnnot:
-		return 1.0
+		return 0.0
 	}
 	return 0
-}
-
-func AnnotScore(ref *refs.Reference) float32 {
-	annot := NewAnnot(ref.AnnotNomen)
-	switch annot {
-	case NoAnnot:
-		return 1
-	default:
-		return calculateScore(ref)
-	}
 }

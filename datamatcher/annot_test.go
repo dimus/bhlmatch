@@ -41,8 +41,8 @@ func TestAnnotScore(t *testing.T) {
 		{"Aus bus cus", "Aus bus cus", CombNov, 1.0},
 		{"Aus bus", "Aus bus cus", CombNov, 0.6},
 		{"Aus", "Aus", CombNov, 0},
-		{"Aus bus cus", "Aus", NoAnnot, 1.0},
-		{"Aus bus", "Aus bus", NoAnnot, 1.0},
+		{"Aus bus cus", "Aus", NoAnnot, 0.0},
+		{"Aus bus", "Aus bus", NoAnnot, 0.0},
 		{"Aus virus", "Bus cus", SpNov, 0.0},
 	}
 
