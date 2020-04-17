@@ -86,6 +86,28 @@ func matchYear(refYear string, refs []*rfs.Reference) (*rfs.Reference, float32) 
 	return bestRef, bestScore
 }
 
+func matchAnnot(refYear string, refs []*rfs.Reference) (*rfs.Reference, float32) {
+	var bestRef *rfs.Reference
+	var bestScore float32
+	var score float32
+	bestScore = 0.0
+	for _, r := range refs {
+		score = datamatcher.AnnotScore(r)
+		if score > bestScore {
+			bestRef = r
+			bestScore = score
+		}
+	}
+	if bestScore > 0 {
+		yr, err := strconv.Atoi(refYear)
+		if err == nil {
+			yearScore := datamatcher.YearScore(yr, bestRef)
+			bestScore += yearScore
+		}
+	}
+	return bestRef, bestScore
+}
+
 func (bhlm BHLmatch) processResults(namRef map[string]COLref, format string,
 	out <-chan *rfs.RefsResult, wg *sync.WaitGroup) {
 
@@ -105,26 +127,35 @@ func (bhlm BHLmatch) processResults(namRef map[string]COLref, format string,
 		}
 		// fmt.Println("out", r.Output.NameString, len(r.Output.References))
 		if col, ok := namRef[r.Output.NameString]; ok {
-			ref, score := matchYear(col.year, r.Output.References)
-			if score > 0.0 {
-				fmt.Printf("Best match: %v, %f, %s\n\n", ref, score, col.year)
-				output := []string{
-					col.nameCode,
-					col.author,
-					col.journal,
-					col.vol,
-					col.pages,
-					col.year,
-					ref.Name,
-					ref.MatchName,
-					strconv.Itoa(ref.EditDistance),
-					ref.AnnotNomen,
-					ref.URL,
+			refYear, scoreYear := matchYear(col.year, r.Output.References)
+			refAnnot, scoreAnnot := matchAnnot(col.year, r.Output.References)
+			if scoreYear+scoreAnnot == 0 {
+				continue
+			}
+			bestRef := refYear
+			if scoreAnnot > 0 && bestRef.PageID != refAnnot.PageID {
+				if (scoreYear - scoreAnnot) < 0 {
+					bestRef = refAnnot
 				}
-				err := csvWriter.Write(output)
-				if err != nil {
-					log.Fatal(err)
-				}
+			}
+
+			fmt.Printf("Best match: %v, %f, %s\n\n", bestRef, scoreAnnot+scoreYear, col.year)
+			output := []string{
+				col.nameCode,
+				col.author,
+				col.journal,
+				col.vol,
+				col.pages,
+				col.year,
+				bestRef.Name,
+				bestRef.MatchName,
+				strconv.Itoa(bestRef.EditDistance),
+				bestRef.AnnotNomen,
+				bestRef.URL,
+			}
+			err := csvWriter.Write(output)
+			if err != nil {
+				log.Fatal(err)
 			}
 		} else {
 			fmt.Printf("COULD NOT FIND REFERENCE")

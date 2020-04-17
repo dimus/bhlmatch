@@ -7,12 +7,6 @@ import (
 	"github.com/gnames/bhlnames/refs"
 )
 
-func TestAnnotPresent(t *testing.T) {
-	if 1 != 1 {
-		t.Error("Something is wrong with your 1!")
-	}
-}
-
 func TestAnnotScore(t *testing.T) {
 
 	type data struct {
