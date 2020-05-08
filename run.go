@@ -86,26 +86,26 @@ func matchYear(refYear string, refs []*rfs.Reference) (*rfs.Reference, float32) 
 	return bestRef, bestScore
 }
 
-func matchAnnot(refYear string, refs []*rfs.Reference) (*rfs.Reference, float32) {
+func matchAnnot(refYear string, refs []*rfs.Reference) (*rfs.Reference, float32, float32, float32) {
 	var bestRef *rfs.Reference
-	var bestScore float32
+	var annotScore float32
 	var score float32
-	bestScore = 0.0
+	annotScore = 0.0
 	for _, r := range refs {
 		score = datamatcher.AnnotScore(r)
-		if score > bestScore {
+		if score > annotScore {
 			bestRef = r
-			bestScore = score
+			annotScore = score
 		}
 	}
-	if bestScore > 0 {
+	var yearScore float32 = 0
+	if annotScore > 0 {
 		yr, err := strconv.Atoi(refYear)
 		if err == nil {
-			yearScore := datamatcher.YearScore(yr, bestRef)
-			bestScore += yearScore
+			yearScore = datamatcher.YearScore(yr, bestRef)
 		}
 	}
-	return bestRef, bestScore
+	return bestRef, annotScore + yearScore, annotScore, yearScore
 }
 
 func (bhlm BHLmatch) processResults(namRef map[string]COLref, format string,
@@ -128,18 +128,26 @@ func (bhlm BHLmatch) processResults(namRef map[string]COLref, format string,
 		// fmt.Println("out", r.Output.NameString, len(r.Output.References))
 		if col, ok := namRef[r.Output.NameString]; ok {
 			refYear, scoreYear := matchYear(col.year, r.Output.References)
-			refAnnot, scoreAnnot := matchAnnot(col.year, r.Output.References)
-			if scoreYear+scoreAnnot == 0 {
+			refAnnot, scoreComposite, scoreAnnot, scoreYearComposite := matchAnnot(col.year, r.Output.References)
+			if scoreYear+scoreComposite == 0 {
 				continue
 			}
 			bestRef := refYear
-			if scoreAnnot > 0 && bestRef.PageID != refAnnot.PageID {
-				if (scoreYear - scoreAnnot) < 0 {
-					bestRef = refAnnot
+			bestScore := scoreYear
+			if bestRef == nil {
+				bestRef = refAnnot
+				bestScore = scoreComposite
+			} else if refAnnot != nil {
+				if scoreComposite > 0 && bestRef.PageID != refAnnot.PageID {
+					if scoreYear < scoreComposite {
+						bestRef = refAnnot
+						bestScore = scoreComposite
+						scoreYear = scoreYearComposite
+					}
 				}
 			}
 
-			fmt.Printf("Best match: %v, %f, %s\n\n", bestRef, scoreAnnot+scoreYear, col.year)
+			fmt.Printf("Best match: %v, %f, %f, %f, %s\n\n", bestRef, bestScore, scoreYear, scoreAnnot, col.year)
 			output := []string{
 				col.nameCode,
 				col.author,
@@ -149,6 +157,9 @@ func (bhlm BHLmatch) processResults(namRef map[string]COLref, format string,
 				col.year,
 				bestRef.Name,
 				bestRef.MatchName,
+				fmt.Sprintf("%.2f", bestScore),
+				fmt.Sprintf("%.2f", scoreYear),
+				fmt.Sprintf("%.2f", scoreAnnot),
 				strconv.Itoa(bestRef.EditDistance),
 				bestRef.AnnotNomen,
 				bestRef.URL,
